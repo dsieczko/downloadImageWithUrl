@@ -12,8 +12,10 @@ func downloadImageWithUrl(url: NSURL, completionHandler:(succeeded: Bool, image:
     
     let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
         if (error == nil) {
-            let image = UIImage(data: data)
-            completionHandler(succeeded: true, image: image)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let image = UIImage(data: data)
+                completionHandler(succeeded: true, image: image)
+            })
         } else {
             completionHandler(succeeded: false, image: nil)
         }
